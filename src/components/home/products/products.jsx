@@ -3,20 +3,28 @@ import React, { useState, useEffect } from 'react';
 import './product.css'; // Styling for side-by-side layout
 import { useContext } from 'react';
 import { useCart } from '../../../context/cartContext';
+import { useSearchParams } from 'react-router-dom';
 
 
 function Products() {
+    const [categories, setCategories] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('All');
+    const [loading, setLoading] = useState(true);
 
-    
+    const [searchParams] = useSearchParams();
+    const searchQuery = searchParams.get('search')|| '';
+    const filteredProducts = products.filter((product) => {
+        const title = product?.title || ''
+        return title.toLowerCase().includes(searchQuery.toLowerCase())
+    });
+
     const { addToCart } = useCart()
     const handleAdd = (product) => {
         addToCart(product);
         alert("Item added to cart")
     };
-    const [categories, setCategories] = useState([]);
-    const [products, setProducts] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('All');
-    const [loading, setLoading] = useState(true);
+
 
     // 1. Fetch categories list
     useEffect(() => {
@@ -72,15 +80,16 @@ function Products() {
                     <div className="loading">Loading products...</div>
                 ) : (
                     <div className="products-grid">
-                        {products
-                        .map((product) => (
+                        {filteredProducts.length > 0 ? (filteredProducts.map((product) => (
                             <div key={product.id} className="product-card">
                                 <img src={product.image} alt={product.title} className="product-img" />
                                 <h4 className="product-title">{product.title}</h4>
                                 <p className="product-price">${product.price}</p>
                                 <button className="add-btn" onClick={() => handleAdd(product)}>Add to Cart</button>
                             </div>
-                        ))}
+                        ))
+                        ) : (<p> No Products found matching "{searchQuery}".</p>
+                        )}
                     </div>
                 )}
             </main>

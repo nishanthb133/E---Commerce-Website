@@ -9,6 +9,8 @@ import Cart from "./cart"
 import Products from "./products/products";
 import FrontHome from "./fronthome";
 import Fronthomedetails from "./fronthomedetails";
+import SearchBar from "../searchBar";
+import Login from "../../login";
 
 function Navbar() {
     
@@ -34,12 +36,13 @@ function Navbar() {
                 {/* <div className="search-container">
                     <input type="text" placeholder="products..." value={searchTerm} onChange={handleSearchChange}/>
                 </div> */}
-
+                    <SearchBar/>
                 <div className='nav1'>
                     <Link to={'/homepage'}>Home</Link>
                     <Link to={'/productpage'}>Products</Link>
                     <Link to={'/aboutpage'}>About</Link>
                     <Link to={'/contactpage'}>Contact</Link>
+                    <Link to={'/loginpage'} className="login-link">Login</Link>
                     <Link to='/cartpage' className="cart-link">Cart{totalItems>0 &&<span className="cart-count">totalItems</span>}</Link>
                 </div>
 
