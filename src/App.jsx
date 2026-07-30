@@ -27,7 +27,7 @@ function App() {
       <CartProvider>
         <Routes>
           <Route element={<MainLayout />}>
-            <Route path="/" element={< Navigate to="/homepage" replace />} />
+            <Route index  element={< Navigate to="homepage" replace />} />
             <Route path="/homepage" element={<Home />} />
             <Route path="/aboutpage" element={<About />} />
             <Route path="/contactpage" element={<Contact />} />
